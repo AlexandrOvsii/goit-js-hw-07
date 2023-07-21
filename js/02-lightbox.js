@@ -16,12 +16,12 @@ const markup = galleryItems //создаем переменную "размет�
         </a>
     </li>`
   )
-  .join(""); //объединяем все в одну строки
+  .join(""); //объединяем все в одну строку
 
 galleryEl.insertAdjacentHTML("afterbegin", markup); //добавляем в ХТМЛ
 
 //==
 const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
+    captionsData: 'alt',//вносим изменения в свойства
+    captionDelay: 250, //вносим изменения в свойства
     });
