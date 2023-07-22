@@ -12,16 +12,27 @@ galleryEl.addEventListener("click", handleOpenImage); //вешаем слуша�
 function handleOpenImage(event) {
   event.preventDefault(); //сбрасываем базовые настройки браузера
 
-  const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">`); //создаем экз. модального окна через create, аргументом чего есть строка с данными
+  if(event.target.className === 'gallery'){
+    return;
+  }
 
-  instance.show(); //метод basicLightbox = показать экземпляр
+//создаем экз. модального окна через basicLightbox.create
+  const instance = basicLightbox.create(`
+    <img src="${event.target.dataset.source}" width="800" height="600">`, {
+      
+      onShow: (instance) => {
+        document.addEventListener("keydown", handleCloseImageByKey); //добавляем слушателя событий на нажатие кнопки и добавляем ф-цию закрытия изображения по Escape
+      },
+      onClose: (instance) => {
+        document.addEventListener("keydown", handleCloseImageByKey); //добавляем слушателя событий на нажатие кнопки и добавляем ф-цию закрытия изображения по Escape
+      },
+    }); 
+
+  instance.show(instance); //метод basicLightbox = показать экземпляр
   currentImageInstance = instance; //присваиваем к текущему значению экз. модального окна наш экземпляр созданный выше
 }
 
 //==
-
-document.addEventListener("keydown", handleCloseImageByKey); //добавляем слушателя событий на нажатие кнопки и добавляем ф-цию закрытия изображения по Escape
 
 function handleCloseImageByKey(event) {
   //ф-ция закрытия изображения по Escape
@@ -59,4 +70,3 @@ const markup = galleryItems //создаем переменную "размет�
   .join(""); //объединяем все в одну строки
 
 galleryEl.insertAdjacentHTML("afterbegin", markup); //добавляем в ХТМЛ
-
